@@ -2,7 +2,8 @@ package com.mozhimen.netk.file.okdownload
 
 import android.content.Context
 import com.liulishuo.okdownload.core.ExtOkDownload
-import com.mozhimen.basick.lintk.optin.OptInApiInit_InApplication
+import com.mozhimen.basick.lintk.optins.OApiInit_InApplication
+import com.mozhimen.netk.okdownload.ext.NetKOkDownloadExt
 
 /**
  * @ClassName NetKFileOkDownloadMgr
@@ -11,13 +12,13 @@ import com.mozhimen.basick.lintk.optin.OptInApiInit_InApplication
  * @Date 2023/11/24 21:25
  * @Version 1.0
  */
-@OptInApiInit_InApplication
+@OApiInit_InApplication
 object NetKFileOkDownloadMgr {
     /**
      * fix bug of #415
      */
     @JvmStatic
     fun init(context: Context) {
-        ExtOkDownload.fix415Bug(context)
+        NetKOkDownloadExt.init(context)
     }
 }

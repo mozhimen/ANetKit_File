@@ -1,9 +1,6 @@
 package com.mozhimen.netk.file.okdownload
 
 import androidx.lifecycle.LifecycleOwner
-import com.mozhimen.basick.lintk.optin.OptInApiDeprecated_ThirdParty
-import com.mozhimen.basick.manifestk.annors.AManifestKRequire
-import com.mozhimen.basick.manifestk.cons.CPermission
 import com.mozhimen.netk.file.okdownload.helpers.OkDownloadTaskManager
 
 
@@ -14,15 +11,10 @@ import com.mozhimen.netk.file.okdownload.helpers.OkDownloadTaskManager
  * @Date 2022/11/1 14:12
  * @Version 1.0
  */
-@AManifestKRequire(
-    CPermission.INTERNET, CPermission.READ_EXTERNAL_STORAGE, CPermission.WRITE_EXTERNAL_STORAGE
-)
 class NetKFileOkDownload(owner: LifecycleOwner) {
 
-    @OptInApiDeprecated_ThirdParty
     private val _okDownloadTaskManager by lazy { OkDownloadTaskManager(owner) }
 
-    @OptInApiDeprecated_ThirdParty
     fun download(): OkDownloadTaskManager =
         _okDownloadTaskManager
 

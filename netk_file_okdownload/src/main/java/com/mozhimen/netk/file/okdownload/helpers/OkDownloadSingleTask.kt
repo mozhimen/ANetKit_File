@@ -5,12 +5,12 @@ import com.liulishuo.okdownload.DownloadTask
 import com.liulishuo.okdownload.StatusUtil
 import com.liulishuo.okdownload.core.cause.EndCause
 import com.liulishuo.okdownload.core.listener.DownloadListener2
-import com.mozhimen.basick.lintk.optin.OptInApiDeprecated_ThirdParty
-import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
-import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
+import com.mozhimen.basick.lintk.optins.OApiCall_BindLifecycle
+import com.mozhimen.basick.lintk.optins.OApiInit_ByLazy
 import com.mozhimen.basick.taskk.bases.BaseWakeBefDestroyTaskK
 import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
-import com.mozhimen.basick.utilk.android.util.UtilKLog
+import com.mozhimen.basick.utilk.android.util.UtilKLogWrapper
+import com.mozhimen.basick.utilk.commons.IUtilK
 import com.mozhimen.basick.utilk.kotlin.UtilKNumber
 import com.mozhimen.basick.utilk.kotlin.isStrUrlConnectable
 import com.mozhimen.netk.file.okdownload.commons.IFileDownloadSingleListener
@@ -26,10 +26,8 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @Date 2022/11/1 23:27
  * @Version 1.0
  */
-@OptInApiCall_BindLifecycle
-@OptInApiInit_ByLazy
-@OptInApiDeprecated_ThirdParty
-@Deprecated("okdownload is deprecated")
+@OApiInit_ByLazy
+@OApiCall_BindLifecycle
 class OkDownloadSingleTask : BaseWakeBefDestroyTaskK() {
     private val _downloadUrls = CopyOnWriteArrayList<String>()
     private var _downloadListenerMap = ConcurrentHashMap<String, IFileDownloadSingleListener>()
@@ -44,7 +42,7 @@ class OkDownloadSingleTask : BaseWakeBefDestroyTaskK() {
 
         _downloadUrls.add(url)
         listener?.let { _downloadListenerMap[url] = it }
-        val downloadTask = DownloadTask.Builder(url, file).build()
+        val downloadTask = DownloadTask.Builder(url, file, null).build()
         downloadTask.enqueue(DownloadCallback2(listener))
         _downloadTaskMap[url] = downloadTask
     }
@@ -74,8 +72,7 @@ class OkDownloadSingleTask : BaseWakeBefDestroyTaskK() {
         cancelAll()
     }
 
-    internal inner class DownloadCallback2(private val _listener: IFileDownloadSingleListener? = null) : DownloadListener2() {
-        private val TAG = "DownloadCallback2>>>>>"
+    internal inner class DownloadCallback2(private val _listener: IFileDownloadSingleListener? = null) : DownloadListener2(), IUtilK {
         private var _totalIndex = 0
         private var _totalBytes = 0L
         override fun taskStart(task: DownloadTask) {
@@ -90,7 +87,7 @@ class OkDownloadSingleTask : BaseWakeBefDestroyTaskK() {
             _totalIndex += blockIndex
             _totalBytes += increaseBytes
             Log.v(TAG, "fetchProgress: _totalIndex $_totalIndex _totalBytes ${_totalBytes / 1024 / 1024}MB")
-            _listener?.onProgress(task, UtilKNumber.normalize(_totalIndex, 0, 100), _totalBytes)
+            _listener?.onProgress(task, UtilKNumber.constraint(_totalIndex, 0, 100), _totalBytes)
         }
 
         override fun taskEnd(task: DownloadTask, cause: EndCause, realCause: Exception?) {
@@ -119,11 +116,11 @@ class OkDownloadSingleTask : BaseWakeBefDestroyTaskK() {
                     Log.d(TAG, "taskEnd: success")
                     _listener?.onComplete(task)
                 } ?: kotlin.run {
-                    UtilKLog.et(TAG, "taskEnd: fail get file path fail")
+                    UtilKLogWrapper.e(TAG, "taskEnd: fail get file path fail")
                     _listener?.onFail(task, Exception("get file path fail"))
                 }
             } else {
-                UtilKLog.et(TAG, "taskEnd: error ${cause.name} realCause ${realCause?.message}")
+                UtilKLogWrapper.e(TAG, "taskEnd: error ${cause.name} realCause ${realCause?.message}")
                 realCause?.printStackTrace()
                 _listener?.onFail(task, realCause)
             }

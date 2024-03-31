@@ -1,9 +1,8 @@
 package com.mozhimen.netk.file.okdownload.helpers
 
 import androidx.lifecycle.LifecycleOwner
-import com.mozhimen.basick.lintk.optin.OptInApiDeprecated_ThirdParty
-import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
-import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
+import com.mozhimen.basick.lintk.optins.OApiCall_BindLifecycle
+import com.mozhimen.basick.lintk.optins.OApiInit_ByLazy
 
 /**
  * @ClassName NetKFileDownload
@@ -12,13 +11,11 @@ import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
  * @Date 2022/11/1 21:52
  * @Version 1.0
  */
-@OptInApiDeprecated_ThirdParty
-@Deprecated("okdownload is deprecated")
 class OkDownloadTaskManager(owner: LifecycleOwner) {
-    @OptIn(OptInApiCall_BindLifecycle::class, OptInApiInit_ByLazy::class)
+    @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
     private val _okDownloadSingleTask by lazy { OkDownloadSingleTask().apply { bindLifecycle(owner) } }
 
-    @OptIn(OptInApiCall_BindLifecycle::class, OptInApiInit_ByLazy::class)
+    @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
     fun singleFileTask(): OkDownloadSingleTask =
         _okDownloadSingleTask
 }
