@@ -11,8 +11,8 @@ import com.mozhimen.basick.taskk.bases.BaseWakeBefDestroyTaskK
 import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
 import com.mozhimen.basick.utilk.android.util.UtilKLogWrapper
 import com.mozhimen.basick.utilk.commons.IUtilK
-import com.mozhimen.basick.utilk.kotlin.UtilKNumber
 import com.mozhimen.basick.utilk.kotlin.isStrUrlConnectable
+import com.mozhimen.basick.utilk.kotlin.ranges.UtilK_Ranges
 import com.mozhimen.netk.file.okdownload.commons.IFileDownloadSingleListener
 import java.io.File
 import java.lang.Exception
@@ -87,7 +87,7 @@ class OkDownloadSingleTask : BaseWakeBefDestroyTaskK() {
             _totalIndex += blockIndex
             _totalBytes += increaseBytes
             Log.v(TAG, "fetchProgress: _totalIndex $_totalIndex _totalBytes ${_totalBytes / 1024 / 1024}MB")
-            _listener?.onProgress(task, UtilKNumber.constraint(_totalIndex, 0, 100), _totalBytes)
+            _listener?.onProgress(task, UtilK_Ranges.constraint(_totalIndex, 0, 100), _totalBytes)
         }
 
         override fun taskEnd(task: DownloadTask, cause: EndCause, realCause: Exception?) {
