@@ -3,17 +3,17 @@ package com.mozhimen.netk.file.test
 import android.os.Bundle
 import android.util.Log
 import com.liulishuo.okdownload.DownloadTask
-import com.mozhimen.basick.elemk.androidx.appcompat.bases.databinding.BaseActivityVB
-import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
-import com.mozhimen.basick.lintk.optin.OptInApiDeprecated_ThirdParty
-import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
+import com.mozhimen.kotlin.elemk.androidx.appcompat.bases.databinding.BaseActivityVB
+import com.mozhimen.kotlin.lintk.optin.OptInApiCall_BindLifecycle
+import com.mozhimen.kotlin.lintk.optin.OptInApiDeprecated_ThirdParty
+import com.mozhimen.kotlin.lintk.optin.OptInApiInit_ByLazy
 import com.mozhimen.basick.manifestk.cons.CPermission
 import com.mozhimen.netk.file.okdownload.commons.IFileDownloadSingleListener
 import com.mozhimen.basick.manifestk.permission.ManifestKPermission
 import com.mozhimen.basick.manifestk.permission.annors.APermissionCheck
 import com.mozhimen.basick.manifestk.annors.AManifestKRequire
-import com.mozhimen.basick.utilk.kotlin.UtilKStrFile
-import com.mozhimen.basick.utilk.kotlin.UtilKStrPath
+import com.mozhimen.kotlin.utilk.kotlin.UtilKStrFile
+import com.mozhimen.kotlin.utilk.kotlin.UtilKStrPath
 import com.mozhimen.netk.file.okdownload.NetKFileOkDownload
 import com.mozhimen.netk.file.test.databinding.ActivityNetkFileBinding
 
